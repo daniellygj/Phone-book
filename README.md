@@ -16,7 +16,8 @@ Criar uma API REST em Java e MySQL que gerencie e disponibilize uma agenda de co
 -----------
 
 ### Documentação da API:
-- http://localhost:8080/swagger-ui.html
+Depois de rodar o projeto, acessar a url http://localhost:8080/swagger-ui.html
+
 
 ### Como rodar o projeto:
 * #### Docker
