@@ -15,7 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ContactServiceTest {
@@ -66,5 +66,12 @@ public class ContactServiceTest {
 				.build();
 
 		service.addNewContact(contact);
+	}
+
+	@Test
+	public void shouldDeleteContact() {
+		doNothing().when(repository).deleteById(CONTACT_ID);
+		service.deleteContact(CONTACT_ID);
+		verify(repository).deleteById(CONTACT_ID);
 	}
 }

@@ -26,4 +26,8 @@ public class ContactService {
 	public Page<Contact> listContacts(final ContactFilter filter, final Pageable pageable) {
 		return repository.findAll(new ContactFilterQuery(filter).buildFilter(), pageable);
 	}
+
+	public void deleteContact(Long id) {
+		repository.deleteById(id);
+	}
 }
