@@ -4,6 +4,7 @@ import com.phonebook.controller.ContactFilter;
 import com.phonebook.model.Contact;
 import com.phonebook.repository.ContactFilterQuery;
 import com.phonebook.repository.ContactRepository;
+import com.phonebook.utils.exception.Exception;
 import com.phonebook.utils.exception.Exception.EmptyPhonesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,5 +30,20 @@ public class ContactService {
 
 	public void deleteContact(Long id) {
 		repository.deleteById(id);
+	}
+
+	public Contact editContact(Contact contactEdited) {
+		if (contactEdited.getPhone() == null || contactEdited.getPhone().isEmpty()) {
+			throw new Exception.EmptyPhonesException();
+		}
+
+		Contact contactSaved = repository.getOne(contactEdited.getId());
+
+		contactSaved.setEmail(contactEdited.getEmail());
+		contactSaved.setFirstName(contactEdited.getFirstName());
+		contactSaved.setLastName(contactEdited.getLastName());
+		contactSaved.setPhone(contactEdited.getPhone());
+
+		return repository.save(contactSaved);
 	}
 }
