@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1" author="danielly">
+        <createTable tableName="contact">
+            <column name="id" type="BIGINT"/>
+            <column name="first_name" type="VARCHAR(100)"/>
+            <column name="last_name" type="VARCHAR(100)"/>
+            <column name="email" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="danielly">
+        <createTable tableName="phone">
+            <column name="id" type="BIGINT"/>
+            <column name="number" type="VARCHAR(12)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="danielly">
+        <createTable tableName="contact_phone">
+            <column name="id" type="BIGINT"/>
+            <column name="contact_id" type="BIGINT"/>
+            <column name="phone_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4" author="danielly">
+        <addPrimaryKey columnNames="id" tableName="contact" constraintName="contact_pk"/>
+        <addPrimaryKey columnNames="id" tableName="phone" constraintName="phone_pk"/>
+        <addPrimaryKey columnNames="id" tableName="contact_phone" constraintName="contact_phone_pk"/>
+    </changeSet>
+
+    <changeSet id="5" author="danielly">
+        <addAutoIncrement columnDataType="BIGINT" columnName="id" incrementBy="1" tableName="contact"/>
+        <addAutoIncrement columnDataType="BIGINT" columnName="id" incrementBy="1" tableName="phone"/>
+        <addAutoIncrement columnDataType="BIGINT" columnName="id" incrementBy="1" tableName="contact_phone"/>
+    </changeSet>
+
+    <changeSet id="6" author="danielly">
+        <addForeignKeyConstraint baseColumnNames="contact_id" baseTableName="contact_phone" constraintName="contact_fk"
+                                 referencedColumnNames="id" referencedTableName="contact"/>
+
+        <addForeignKeyConstraint baseColumnNames="phone_id" baseTableName="contact_phone" constraintName="phone_fk"
+                                 referencedColumnNames="id" referencedTableName="phone"/>
+    </changeSet>
+
+    <changeSet id="7" author="danielly">
+        <addNotNullConstraint columnDataType="VARCHAR(100)" columnName="first_name" constraintName="first_name_notnull" tableName="contact"/>
+        <addNotNullConstraint columnDataType="VARCHAR(100)" columnName="last_name" constraintName="last_name_notnull" tableName="contact"/>
+        <addNotNullConstraint columnDataType="VARCHAR(100)" columnName="email" constraintName="email_notnull" tableName="contact"/>
+
+        <addNotNullConstraint columnDataType="VARCHAR(12)" columnName="number" constraintName="number_notnull" tableName="phone"/>
+
+        <addNotNullConstraint columnDataType="BIGINT" columnName="contact_id" constraintName="contact_id_notnull" tableName="contact_phone"/>
+        <addNotNullConstraint columnDataType="BIGINT" columnName="phone_id" constraintName="phone_id_notnull" tableName="contact_phone"/>
+    </changeSet>
+
+</databaseChangeLog>
