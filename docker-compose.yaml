@@ -1,0 +1,34 @@
+version: '3.5'
+
+services:
+  mysql-service:
+    image: mysql:5.7
+    networks:
+      - phonebook-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_DATABASE=phonebook
+    restart: on-failure
+
+  phonebook-service:
+    build:
+      context: ./
+      args:
+        JAR_FILE: ./target/phonebook-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=jdbc:mysql://mysql-service:3306/phonebook?useTimezone=true&serverTimezone=UTC&useSSL=false
+      - DB_USERNAME:admin
+      - DB_PASSWORD:admin
+    networks:
+      - phonebook-network
+    depends_on:
+      - mysql-service
+    restart: on-failure
+
+networks:
+  phonebook-network:
+    driver: bridge
